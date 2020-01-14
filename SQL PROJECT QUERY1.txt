@@ -5,7 +5,7 @@ QUERY 1
 SELECT DISTINCT(film_title), category_name,
 COUNT(rentals) OVER (PARTITION BY film_title, category_name) AS rental_count
 FROM
-	(SELECT f.title AS film_title, c.name AS 		 category_name, r.rental_id AS rentals
+	(SELECT f.title AS film_title, c.name AS category_name, r.rental_id AS rentals
 	 FROM film f
 	 JOIN film_category fc
 	 ON f.film_id = fc.film_id
@@ -22,8 +22,8 @@ QUERY 2
 
 SELECT film_title, category_name, rental_duration, standard_quartile
 FROM
-	(SELECT f.title AS film_title, c.name AS 		 category_name, f.rental_duration AS 			 rental_duration,
-	 NTILE(4) OVER (PARTITION BY c.name ORDER BY 	  f.title) AS standard_quartile
+	(SELECT f.title AS film_title, c.name AS category_name, f.rental_duration AS rental_duration,
+	 NTILE(4) OVER (PARTITION BY c.name ORDER BY f.title) AS standard_quartile
 	 FROM film f
 	 JOIN film_category fc
 	 ON f.film_id = fc.film_id
@@ -38,13 +38,13 @@ WITH t1 AS (
 	SELECT f.title film_title,
      c.name category_name,
      f.rental_duration  rental_duration,
-	 NTILE(4) OVER (PARTITION BY c.name ORDER BY 	  f.title) standard_quartile
+	 NTILE(4) OVER (PARTITION BY c.name ORDER BY f.title) standard_quartile
 	 FROM film f
 	 JOIN film_category fc
 	 ON f.film_id = fc.film_id
 	 JOIN category c
 	 ON c.category_id = fc.category_id
-     WHERE c.name = 'Animation' OR c.name =           'Children' OR c.name = 'Classics' OR c.name =      'Comedy' OR c.name = 'Family' OR c.name =          'Music'),
+     WHERE c.name = 'Animation' OR c.name = 'Children' OR c.name = 'Classics' OR c.name = 'Comedy' OR c.name = 'Family' OR c.name = 'Music')
  t2 AS (
      SELECT category_name, rental_duration,
      COUNT(film_title) count
@@ -58,7 +58,7 @@ WITH t1 AS (
 
  QUERY 4
 
- SELECT DATE_TRUNC('month', p.payment_date)  	           pay_month,
+ SELECT DATE_TRUNC('month', p.payment_date) pay_month,
  	   first_name ||' '|| last_name AS full_name,
         COUNT(*) monthly_pay_count,
   		SUM(p.amount) pay_amount
