@@ -1,6 +1,6 @@
-SQL PROJECT 
+SQL PROJECT
 
-QUESTION 1 QUERY
+QUERY 1
 
 SELECT DISTINCT(film_title), category_name,
 COUNT(rentals) OVER (PARTITION BY film_title, category_name) AS rental_count
@@ -18,7 +18,7 @@ FROM
 ORDER BY 2, 1;
 
 
-QUESTION 2 QUERY
+QUERY 2
 
 SELECT film_title, category_name, rental_duration, standard_quartile
 FROM
@@ -32,7 +32,7 @@ FROM
 WHERE category_name = 'Animation' OR category_name = 'Children' OR category_name = 'Classics' OR category_name = 'Comedy' OR category_name = 'Family' OR category_name = 'Music';
 
 
-QUESTION 3 QUERY
+QUERY 3
 
 WITH t1 AS (
 	SELECT f.title film_title,
@@ -56,7 +56,7 @@ WITH t1 AS (
  ON t1.category_name = t2.category_name;
 
 
- QUESTION 4 QUERY
+ QUERY 4
 
  SELECT DATE_TRUNC('month', p.payment_date)  	           pay_month,
  	   first_name ||' '|| last_name AS full_name,
